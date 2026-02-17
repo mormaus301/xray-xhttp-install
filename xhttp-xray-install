@@ -170,7 +170,8 @@ pbk=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/Password/ {print $2}')
 sid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
 sni=$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
 ip=$(timeout 3 curl -4 -s icanhazip.com)
-server_ip=\$(curl -s ifconfig.me)
+
+server_ip=$(curl -s ifconfig.me)
 
 # Формирование ссылок
 link="\$protocol://\$uuid@\$ip:\$port?security=reality&path=%2F&host=&mode=auto&sni=\$sni&fp=firefox&pbk=\$pbk&sid=\$sid&spx=%2F&type=xhttp&encryption=none#main"
@@ -191,6 +192,7 @@ echo -e "\n\e[1;33m==================================================\e[0m"
 echo "QR-код для VLESS:"
 echo "\$link" | qrencode -t ansiutf8
 EOF
+
 chmod +x /usr/local/bin/mainuser
 
 # Исполняемый файл для создания новых клиентов
