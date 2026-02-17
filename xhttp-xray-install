@@ -160,26 +160,25 @@ done
 EOF
 chmod +x /usr/local/bin/userlist
 
-# исполняемый файл для ссылки основного пользователя
+# Исполняемый файл для ссылки основного пользователя
 touch /usr/local/bin/mainuser
 cat << EOF > /usr/local/bin/mainuser
 #!/bin/bash
-# Сбор данных происходит внутри файла при каждом запуске
+# Сбор актуальных данных при каждом запуске
 protocol=\$(jq -r '.inbounds[0].protocol' /usr/local/etc/xray/config.json)
 port=\$(jq -r '.inbounds[0].port' /usr/local/etc/xray/config.json)
 uuid=\$(cat /usr/local/etc/xray/.keys | awk -F': ' '/uuid/ {print \$2}')
 pbk=\$(cat /usr/local/etc/xray/.keys | awk -F': ' '/Password/ {print \$2}')
 sid=\$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print \$2}')
 sni=\$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
-ip=\$(curl -4 -s icanhazip.com)
 server_ip=\$(curl -s ifconfig.me)
 
 # Формирование ссылок
-# Мы используем \$, чтобы в файл записалась переменная, которая вычислится при запуске
-link="\$protocol://\$uuid@\$ip:\$port?security=reality&path=%2F&host=&mode=auto&sni=\$sni&fp=firefox&pbk=\$pbk&sid=\$sid&spx=%2F&type=xhttp&encryption=none#main"
+# Мы экранируем \$, чтобы переменные вычислялись при запуске файла, а не при установке
+link="\$protocol://\$uuid@\$server_ip:\$port?security=reality&path=%2F&host=&mode=auto&sni=\$sni&fp=firefox&pbk=\$pbk&sid=\$sid&spx=%2F&type=xhttp&encryption=none#main"
 ss_link="ss://2022-blake3-aes-256-gcm:${ss_password}@\$server_ip:8080#ss"
 
-# Красивый вывод
+# Красивый вывод итоговых данных
 echo -e "\n\e[1;33m==================================================\e[0m"
 echo -e "\e[1;32m      XRAY INSTALLATION COMPLETE 🎭\e[0m"
 echo -e "\e[1;33m==================================================\e[0m"
@@ -221,31 +220,29 @@ sid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
 username=$(jq --argjson index "$index" -r '.inbounds[0].settings.clients[$index].email' /usr/local/etc/xray/config.json)
 sni=$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
 ip=$(curl -4 -s icanhazip.com)
-link="$protocol://$uuid@$ip:$port?security=reality&path=%2F&host=&mode=auto&sni=$sni&fp=firefox&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#$username"
+server_ip=\$(curl -s ifconfig.me)
+
+# Формирование ссылок
+# Мы экранируем \$, чтобы переменные вычислялись при запуске файла, а не при установке
+link="\$protocol://\$uuid@\$server_ip:\$port?security=reality&path=%2F&host=&mode=auto&sni=\$sni&fp=firefox&pbk=\$pbk&sid=\$sid&spx=%2F&type=xhttp&encryption=none#main"
+ss_link="ss://2022-blake3-aes-256-gcm:${ss_password}@\$server_ip:8080#ss"
+
+# Красивый вывод итоговых данных
 echo -e "\n\e[1;33m==================================================\e[0m"
 echo -e "\e[1;32m      XRAY INSTALLATION COMPLETE 🎭\e[0m"
 echo -e "\e[1;33m==================================================\e[0m"
-echo ""
+
 echo -e "\n\e[1;34m[+] VLESS XHTTP REALITY:\e[0m"
-echo "$link"
-# Генерация ссылки shadowsocks
-server_ip=$(curl -s ifconfig.me)
-ss_link="ss://2022-blake3-aes-256-gcm:${ss_password}@${server_ip}:8080#ss"
-echo -e "\n\e[1;34m[+] SHADOWSOCKS:\e[0m"
-echo -e "\e[36m${ss_link}\e[0m"
-# Генерация ссылки shadowsocks
-server_ip=$(curl -s ifconfig.me)
-ss_link="ss://2022-blake3-aes-256-gcm:${ss_password}@${server_ip}:8080#ss"
-echo -e "\n\e[1;34m[+] SHADOWSOCKS:\e[0m"
-echo -e "\e[36m${ss_link}\e[0m"
+echo -e "\e[36m\$link\e[0m"
+
+echo -e "\n\e[1;34m[+] SHADOWSOCKS 2022:\e[0m"
+echo -e "\e[36m\$ss_link\e[0m"
+
 echo -e "\n\e[1;33m==================================================\e[0m"
-echo "QR-код:"
-echo ${link} | qrencode -t ansiutf8
-else
-echo "Пользователь с таким именем уже существует. Попробуйте снова." 
-fi
+echo "QR-код для VLESS:"
+echo "\$link" | qrencode -t ansiutf8
 EOF
-chmod +x /usr/local/bin/newuser
+chmod +x /usr/local/bin/mainuser
 
 # Исполняемый файл для удаления клиентов
 touch /usr/local/bin/rmuser
@@ -311,18 +308,8 @@ sid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
 username=$(jq --argjson index "$index" -r '.inbounds[0].settings.clients[$index].email' /usr/local/etc/xray/config.json)
 sni=$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
 ip=$(timeout 3 curl -4 -s icanhazip.com)
-link="$protocol://$uuid@$ip:$port?security=reality&path=%2F&host=&mode=auto&sni=$sni&fp=firefox&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#$username"
-ss_link="ss://2022-blake3-aes-256-gcm:${ss_password}@${server_ip}:8080#SS-2022"
 
-echo -e "\n\e[1;33m==================================================\e[0m"
-echo -e "\e[1;32m      XRAY INSTALLATION COMPLETE 🎭\e[0m"
-echo -e "\e[1;33m==================================================\e[0m"
-echo -e "\n\e[1;34m[+] VLESS XHTTP REALITY:\e[0m"
-echo -e "\e[36m\$link\e[0m"
-echo -e "\n\e[1;34m[+] SHADOWSOCKS:\e[0m"
-echo -e "\e[36m\$ss_link\e[0m"
-echo -e "\n\e[1;33m==================================================\e[0m"
-echo "QR-код для VLESS:"
+echo "QR-код для VLESS1:"
 echo "\$link" | qrencode -t ansiutf8
 EOF
 chmod +x /usr/local/bin/mainuser
