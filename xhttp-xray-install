@@ -179,9 +179,11 @@ server_ip=\$(curl -4 -s http://api.ipify.org || curl -4 -s http://ifconfig.me)
 # Мы экранируем \$, чтобы переменные вычислялись при запуске файла, а не при установке
 vless_link="$protocol://$uuid@$ip:$port?security=reality&path=%2F&host=&mode=auto&sni=$sni&fp=firefox&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#vless-$ip"
 
+# 1. Генерируем пароль (32 байта)
 ss_password=$(openssl rand -base64 32)
-sed -i "s/\$ss_password/${ss_password}/g" /usr/local/etc/xray/config.json
-userinfo=$(echo -n "2022-blake3-aes-256-gcm:${ss_password}" | base64 -w 0)
+
+# 2. Формируем ссылку (внутри cat << EOF)
+# ПАРОЛЬ впечатается (без \), IP будет динамическим (с \)
 ss_link="ss://2022-blake3-aes-256-gcm:${ss_password}@\$server_ip:8080#SS-2022"
 
 # Красивый вывод итоговых данных
@@ -233,9 +235,11 @@ server_ip=\$(curl -4 -s http://api.ipify.org || curl -4 -s http://ifconfig.me)
 # Мы экранируем \$, чтобы переменные вычислялись при запуске файла, а не при установке
 vless_link="$protocol://$uuid@$ip:$port?security=reality&path=%2F&host=&mode=auto&sni=$sni&fp=firefox&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#vless-$ip"
 
+# 1. Генерируем пароль (32 байта)
 ss_password=$(openssl rand -base64 32)
-sed -i "s/\$ss_password/${ss_password}/g" /usr/local/etc/xray/config.json
-userinfo=$(echo -n "2022-blake3-aes-256-gcm:${ss_password}" | base64 -w 0)
+
+# 2. Формируем ссылку (внутри cat << EOF)
+# ПАРОЛЬ впечатается (без \), IP будет динамическим (с \)
 ss_link="ss://2022-blake3-aes-256-gcm:${ss_password}@\$server_ip:8080#SS-2022"
 
 # Красивый вывод итоговых данных
