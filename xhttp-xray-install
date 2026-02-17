@@ -76,9 +76,9 @@ cat << EOF > /usr/local/etc/xray/config.json
                 "security": "reality",
                 "realitySettings": {
                     "show": false,
-                    "target": "www.vkplay.ru:443",
+                    "target": "www.ivi.tv:443",
                     "serverNames": [
-                        "www.vkplay.ru"
+                        "www.ivi.tv"
                     ],
                     "privateKey": "$privatkey",
                     "minClientVer": "",
