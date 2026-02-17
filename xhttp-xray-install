@@ -112,11 +112,11 @@ cat << EOF > /usr/local/etc/xray/config.json
               "network": "tcp,udp",
               "email": "🪡"
           },
-            "sniffing": {
-              "enabled": true,
-              "destOverride": ["http", "tls", "quic", "fakedns"],
-              "metadataOnly": false,
-              "routeOnly": false
+             "sniffing": {
+             "enabled": true,
+             "destOverride": ["http", "tls", "quic", "fakedns"],
+             "metadataOnly": false,
+             "routeOnly": false
           }
         }
     ],
@@ -223,7 +223,7 @@ echo -e "\e[1;32m      XRAY INSTALLATION COMPLETE 🎭\e[0m"
 echo -e "\e[1;33m==================================================\e[0m"
 
 # Генерация ссылки vless
-vless_link="vless://${uuid}@${server_ip}:443?security=reality&sni=${sni}&fp=chrome&pbk=${pbk}&sid=${sid}&type=xhttp&encryption=none#${username}"
+vless_link="$protocol://$uuid@$ip:$port?security=reality&path=%2F&host=&mode=auto&sni=$sni&fp=firefox&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#$username"
 echo -e "\n\e[1;34m[+] VLESS XHTTP REALITY:\e[0m"
 echo -e "\e[36m${vless_link}\e[0m"
 
