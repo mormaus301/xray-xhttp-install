@@ -61,7 +61,7 @@ cat << EOF > /usr/local/etc/xray/config.json
             "settings": {
                 "clients": [
                     {
-                        "email": "main",
+                        "email": "💉",
                         "id": "$uuid",
                         "flow": ""
                     }
@@ -76,10 +76,9 @@ cat << EOF > /usr/local/etc/xray/config.json
                 "security": "reality",
                 "realitySettings": {
                     "show": false,
-                    "target": "github.com:443",
+                    "target": "www.vkplay.ru:443",
                     "serverNames": [
-                        "github.com",
-                        "www.github.com"
+                        "www.vkplay.ru"
                     ],
                     "privateKey": "$privatkey",
                     "minClientVer": "",
