@@ -27,7 +27,6 @@ export uuid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/uuid/ {print $2}')
 export privatkey=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/PrivateKey/ {print $2}')
 export shortsid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
 
-server_ip=\$(curl -4 -s http://api.ipify.org || curl -4 -s http://ifconfig.me)
 ss_password=$(openssl rand -base64 32)
 
 # Создаем файл конфигурации Xray
@@ -175,6 +174,7 @@ uuid=\$(cat /usr/local/etc/xray/.keys | awk -F': ' '/uuid/ {print \$2}')
 pbk=\$(cat /usr/local/etc/xray/.keys | awk -F': ' '/Password/ {print \$2}')
 sid=\$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print \$2}')
 sni=\$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
+server_ip=\$(curl -4 -s http://api.ipify.org || curl -4 -s http://ifconfig.me)
 
 vless_link="$protocol://$uuid@$ip:$port?security=reality&path=%2F&host=&mode=auto&sni=$sni&fp=firefox&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#vless-$ip"
 ss_link="ss://2022-blake3-aes-256-gcm:${ss_password}@\$server_ip:8080#SS-2022"
