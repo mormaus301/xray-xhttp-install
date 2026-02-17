@@ -102,22 +102,27 @@ cat << EOF > /usr/local/etc/xray/config.json
             }
         },
         {
+          "tag": "SHADOWSOCKS",
           "listen": "0.0.0.0",
           "port": 8080,
           "protocol": "shadowsocks",
           "settings": {
-            "clients": [
-              {
-                "password": "$ss_password",
-                "email": "ss-user"
-              }
-            ],
             "method": "2022-blake3-aes-256-gcm",
-            "network": "tcp,udp"
+            "password": "ss_password",
+            "network": "tcp,udp",
+            "clients": [],
+            "ivCheck": false
           },
           "sniffing": {
             "enabled": true,
-            "destOverride": ["http", "tls", "quic", "fakedns"]
+            "destOverride": [
+              "http",
+              "tls",
+              "quic",
+              "fakedns"
+            ],
+            "metadataOnly": false,
+            "routeOnly": false
           }
         }
     ],
