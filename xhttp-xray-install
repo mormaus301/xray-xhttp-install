@@ -27,6 +27,9 @@ export uuid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/uuid/ {print $2}')
 export privatkey=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/PrivateKey/ {print $2}')
 export shortsid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
 
+# Генерируем ключ 32 байта для Shadowsocks 2022
+ss_password=$(openssl rand -base64 32)
+
 # Создаем файл конфигурации Xray
 touch /usr/local/etc/xray/config.json
 cat << EOF > /usr/local/etc/xray/config.json
