@@ -181,6 +181,8 @@ server_ip=\$(curl -4 -s http://api.ipify.org || curl -4 -s http://ifconfig.me)
 # Формирование ссылок
 # Мы экранируем \$, чтобы переменные вычислялись при запуске файла, а не при установке
 vless_link="$protocol://$uuid@$ip:$port?security=reality&path=%2F&host=&mode=auto&sni=$sni&fp=firefox&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#vless-$ip"
+
+userinfo=$(echo -n "2022-blake3-aes-256-gcm:${ss_password}" | base64 -w 0)
 ss_link="ss://2022-blake3-aes-256-gcm:${ss_password}@\$server_ip:8080#SS-2022"
 
 # Красивый вывод итоговых данных
@@ -231,6 +233,8 @@ server_ip=\$(curl -4 -s http://api.ipify.org || curl -4 -s http://ifconfig.me)
 # Формирование ссылок
 # Мы экранируем \$, чтобы переменные вычислялись при запуске файла, а не при установке
 vless_link="$protocol://$uuid@$ip:$port?security=reality&path=%2F&host=&mode=auto&sni=$sni&fp=firefox&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#vless-$ip"
+
+userinfo=$(echo -n "2022-blake3-aes-256-gcm:${ss_password}" | base64 -w 0)
 ss_link="ss://2022-blake3-aes-256-gcm:${ss_password}@\$server_ip:8080#SS-2022"
 
 # Красивый вывод итоговых данных
