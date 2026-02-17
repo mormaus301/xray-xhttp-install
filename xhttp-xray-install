@@ -171,8 +171,8 @@ uuid=\$(cat /usr/local/etc/xray/.keys | awk -F': ' '/uuid/ {print \$2}')
 pbk=\$(cat /usr/local/etc/xray/.keys | awk -F': ' '/Password/ {print \$2}')
 sid=\$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print \$2}')
 sni=\$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
-server_ip=\$(curl -s ifconfig.me)
 
+server_ip=\$(curl -4 -s ifconfig.me)
 userinfo=\$(echo -n "2022-blake3-aes-256-gcm:${ss_password}" | base64 -w 0)
 
 # Формирование ссылок
@@ -222,8 +222,8 @@ sid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
 username=$(jq --argjson index "$index" -r '.inbounds[0].settings.clients[$index].email' /usr/local/etc/xray/config.json)
 sni=$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
 ip=$(curl -4 -s icanhazip.com)
-server_ip=\$(curl -s ifconfig.me)
 
+server_ip=\$(curl -4 -s ifconfig.me)
 userinfo=\$(echo -n "2022-blake3-aes-256-gcm:${ss_password}" | base64 -w 0)
 
 # Формирование ссылок
