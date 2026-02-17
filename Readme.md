@@ -5,5 +5,5 @@
 ## Установка с транспортом XHTTP.
 Установка производится слудующей командой. Внимание! Все пользователи будут удалены - их придется подключать заново.
 ```sh
-wget -qO- https://raw.githubusercontent.com/ServerTechnologies/simple-xray-core/refs/heads/main/xhttp-xray-install | bash
+wget -qO- https://raw.githubusercontent.com/mormaus301/xray-xhttp-install/main/xhttp-xray-install | bash
 ```
