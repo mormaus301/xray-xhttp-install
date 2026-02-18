@@ -177,6 +177,7 @@ cat << EOF > /usr/local/bin/mainuser
 port_vless=\$(jq -r '.inbounds[0].port' /usr/local/etc/xray/config.json)
 uuid=\$(jq -r '.inbounds[0].settings.clients[0].id' /usr/local/etc/xray/config.json)
 sni=\$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
+
 pbk=\$(awk -F': ' '/PublicKey/ {print \$2}' /usr/local/etc/xray/.keys)
 sid=\$(awk -F': ' '/shortsid/ {print \$2}' /usr/local/etc/xray/.keys)
 
