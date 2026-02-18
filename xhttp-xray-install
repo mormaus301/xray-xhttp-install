@@ -177,7 +177,7 @@ port_vless=\$(jq -r '.inbounds[0].port' /usr/local/etc/xray/config.json)
 uuid=\$(jq -r '.inbounds[0].settings.clients[0].id' /usr/local/etc/xray/config.json)
 sni=\$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
 
-pbk=\$(awk -F': ' '/PublicKey/ {print \$2}' /usr/local/etc/xray/.keys)
+pbk=\$(awk -F': ' '/[Pp]ublic/ {print \$2}' /usr/local/etc/xray/.keys)
 sid=\$(awk -F': ' '/shortsid/ {print \$2}' /usr/local/etc/xray/.keys)
 
 #sid=\$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print \$2}')
@@ -241,7 +241,7 @@ ss_link="ss://2022-blake3-aes-256-gcm:${ss_password}@\$ip:8080#ss-$ip"
 
 # Красивый вывод итоговых данных
 echo -e "\n\e[1;33m==================================================\e[0m"
-echo -e "\e[1;32m      XRAY INSTALLATION COMPLETE 🎭\e[0m"
+echo -e "\e[1;32m      XRAY INSTALLATION COMPLETE \e[0m"
 echo -e "\e[1;33m==================================================\e[0m"
 
 echo -e "\n\e[1;34m[+] VLESS XHTTP REALITY:\e[0m"
