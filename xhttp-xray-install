@@ -27,6 +27,7 @@ export uuid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/uuid/ {print $2}')
 export privatkey=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/PrivateKey/ {print $2}')
 export shortsid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
 
+# Генерация пароля для Shadowsocks
 ss_password=$(openssl rand -base64 32)
 
 # Создаем файл конфигурации Xray
@@ -200,10 +201,6 @@ echo -e "\e[1;33m===============================================================
 echo "QR-код для Shadowsocks:"
 echo "\$ss_link" | qrencode -t ansiutf8
 echo -e "\e[1;33m==========================================================================\e[0m"
-
-# Удаляем временные файлы
-rm /tmp/vless_qr /tmp/ss_qr
-
 
 EOF
 chmod +x /usr/local/bin/mainuser
