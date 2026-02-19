@@ -27,9 +27,6 @@ export uuid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/uuid/ {print $2}')
 export privatkey=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/PrivateKey/ {print $2}')
 export shortsid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
 
-#export privatkey=$(awk -F': ' '/privatekey/ {print $2}' /usr/local/etc/xray/.keys)
-#export shortsid=$(awk -F': ' '/shortsid/ {print $2}' /usr/local/etc/xray/.keys)
-
 ss_password=$(openssl rand -base64 32)
 
 # Создаем файл конфигурации Xray
@@ -172,33 +169,20 @@ touch /usr/local/bin/mainuser
 cat << EOF > /usr/local/bin/mainuser
 #!/bin/bash
 # Сбор актуальных данных при каждом запуске
-#port=\$(jq -r '.inbounds[0].port' /usr/local/etc/xray/config.json)
-#uuid=\$(cat /usr/local/etc/xray/.keys | awk -F': ' '/uuid/ {print \$2}')
-#pbk=\$(cat /usr/local/etc/xray/.keys | awk -F': ' '/Password/ {print \$2}')
-
 port_vless=\$(jq -r '.inbounds[0].port' /usr/local/etc/xray/config.json)
 uuid=\$(jq -r '.inbounds[0].settings.clients[0].id' /usr/local/etc/xray/config.json)
 sni=\$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
-
 pbk=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/Password/ {print $2}')
 sid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
-
-#sid=\$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print \$2}')
-#sni=\$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
-
 port_ss=\$(jq -r '.inbounds[1].port' /usr/local/etc/xray/config.json)
 pass_ss=\$(jq -r '.inbounds[1].settings.password' /usr/local/etc/xray/config.json)
 method_ss=\$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
-
 ip=$(timeout 3 curl -4 -s icanhazip.com)
-
-#link="vless://$uuid@$ip:$port?security=reality&path=%2F&host=&mode=auto&sni=$sni&fp=firefox&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#vless-$ip"
-#ss_link="ss://2022-blake3-aes-256-gcm:${ss_password}@\$ip:8080#ss-$ip"
 
 vless_link="vless://\$uuid@\$ip:\$port_vless?security=reality&path=%2F&host=&mode=auto&sni=\$sni&fp=firefox&pbk=\$pbk&sid=\$sid&spx=%2F&type=xhttp&encryption=none#VLESS-XHTTP"
 ss_link="ss://\$method_ss:\$pass_ss@\$ip:\$port_ss#SS-2022"
 
-# Красивый вывод итоговых данных
+# Вывод итоговых данных
 echo -e "\n\e[1;33m==================================================\e[0m"
 echo -e "\e[1;32m      XRAY INSTALLATION COMPLETE 🎭\e[0m"
 echo -e "\e[1;33m==================================================\e[0m"
@@ -211,20 +195,10 @@ echo -e "\e[36m\$ss_link\e[0m"
 
 echo -e "\n\e[1;33m==================================================\e[0m"
 echo "QR-код для VLESS:"
-echo "\$link" | qrencode -t ansiutf8
-
-# Генерируем временные файлы для QR-кодов
-qrencode -t ansiutf8 "\$vless_link" > /tmp/vless_qr
-qrencode -t ansiutf8 "\$ss_link" > /tmp/ss_qr
-
-echo -e "\n\e[1;33m==========================================================================\e[0m"
-echo -e "      \e[1;32mVLESS XHTTP REALITY\e[0m                         \e[1;34mSHADOWSOCKS 2022\e[0m"
+echo "\$vless_link" | qrencode -t ansiutf8
 echo -e "\e[1;33m==========================================================================\e[0m"
-
-# Выводим QR-коды бок о бок с помощью paste
-# Флаг -d '   ' добавляет расстояние между кодами
-paste -d '     ' /tmp/vless_qr /tmp/ss_qr
-
+echo "QR-код для Shadowsocks:"
+echo "\$ss_link" | qrencode -t ansiutf8
 echo -e "\e[1;33m==========================================================================\e[0m"
 
 # Удаляем временные файлы
