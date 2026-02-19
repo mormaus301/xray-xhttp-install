@@ -212,6 +212,25 @@ echo -e "\e[36m\$ss_link\e[0m"
 echo -e "\n\e[1;33m==================================================\e[0m"
 echo "QR-код для VLESS:"
 echo "\$link" | qrencode -t ansiutf8
+
+# Генерируем временные файлы для QR-кодов
+qrencode -t ansiutf8 "\$vless_link" > /tmp/vless_qr
+qrencode -t ansiutf8 "\$ss_link" > /tmp/ss_qr
+
+echo -e "\n\e[1;33m==========================================================================\e[0m"
+echo -e "      \e[1;32mVLESS XHTTP REALITY\e[0m                         \e[1;34mSHADOWSOCKS 2022\e[0m"
+echo -e "\e[1;33m==========================================================================\e[0m"
+
+# Выводим QR-коды бок о бок с помощью paste
+# Флаг -d '   ' добавляет расстояние между кодами
+paste -d '     ' /tmp/vless_qr /tmp/ss_qr
+
+echo -e "\e[1;33m==========================================================================\e[0m"
+
+# Удаляем временные файлы
+rm /tmp/vless_qr /tmp/ss_qr
+
+
 EOF
 chmod +x /usr/local/bin/mainuser
 
