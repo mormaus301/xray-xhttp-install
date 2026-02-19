@@ -74,7 +74,8 @@ cat << EOF > /usr/local/etc/xray/config.json
             "streamSettings": {
                 "network": "xhttp",
                 "xhttpSettings": {
-                    "path": "/"
+                    "path": "/",
+                    "mode": "packet-up"
                 },
                 "security": "reality",
                 "realitySettings": {
@@ -172,15 +173,17 @@ cat << EOF > /usr/local/bin/mainuser
 # Сбор актуальных данных при каждом запуске
 port_vless=\$(jq -r '.inbounds[0].port' /usr/local/etc/xray/config.json)
 uuid=\$(jq -r '.inbounds[0].settings.clients[0].id' /usr/local/etc/xray/config.json)
+mode=\$(jq -r '.inbounds[0].streamSettings.xhttpSettings.mode' /usr/local/etc/xray/config.json)
 sni=\$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
 pbk=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/Password/ {print $2}')
 sid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
+
 port_ss=\$(jq -r '.inbounds[1].port' /usr/local/etc/xray/config.json)
 pass_ss=\$(jq -r '.inbounds[1].settings.password' /usr/local/etc/xray/config.json)
 method_ss=\$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
 ip=$(timeout 3 curl -4 -s icanhazip.com)
 
-vless_link="vless://\$uuid@\$ip:\$port_vless?security=reality&path=%2F&host=&mode=auto&sni=\$sni&fp=firefox&pbk=\$pbk&sid=\$sid&spx=%2F&type=xhttp&encryption=none#VLESS-XHTTP"
+vless_link="vless://\$uuid@\$ip:\$port_vless?security=reality&path=%2F&host=&mode=\$mode&sni=\$sni&fp=firefox&pbk=\$pbk&sid=\$sid&spx=%2F&type=xhttp&encryption=none#VLESS-XHTTP"
 ss_link="ss://\$method_ss:\$pass_ss@\$ip:\$port_ss#SS-2022"
 
 # Вывод итоговых данных
