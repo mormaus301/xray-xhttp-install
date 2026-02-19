@@ -81,9 +81,10 @@ cat << EOF > /usr/local/etc/xray/config.json
                 "security": "reality",
                 "realitySettings": {
                     "show": false,
-                    "target": "www.ivi.tv:443",
+                    "target": "github.com:443",
                     "serverNames": [
-                        "www.ivi.tv"
+                        "github.com",
+                        "www.github.com"
                     ],
                     "privateKey": "$privatkey",
                     "minClientVer": "",
@@ -99,8 +100,7 @@ cat << EOF > /usr/local/etc/xray/config.json
                 "destOverride": [
                     "http",
                     "tls",
-                    "quic",
-                    "fakedns"
+                    "quic"
                 ]
             }
         },
