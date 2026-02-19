@@ -74,7 +74,8 @@ cat << EOF > /usr/local/etc/xray/config.json
             "streamSettings": {
                 "network": "xhttp",
                 "xhttpSettings": {
-                    "path": "/"
+                    "path": "/",
+                    "mode": "packet-up"
                 },
                 "security": "reality",
                 "realitySettings": {
@@ -99,7 +100,7 @@ cat << EOF > /usr/local/etc/xray/config.json
                     "tls",
                     "quic",
                     "fakedns"
-                ]
+                ],
                 "metadataOnly": false,
                 "routeOnly": false
             }
