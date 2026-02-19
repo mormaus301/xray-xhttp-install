@@ -78,10 +78,9 @@ cat << EOF > /usr/local/etc/xray/config.json
                 "security": "reality",
                 "realitySettings": {
                     "show": false,
-                    "target": "github.com:443",
+                    "target": "www.mega.io:443",
                     "serverNames": [
-                        "github.com",
-                        "www.github.com"
+                        "www.mega.io"
                     ],
                     "privateKey": "$privatkey",
                     "minClientVer": "",
@@ -97,7 +96,8 @@ cat << EOF > /usr/local/etc/xray/config.json
                 "destOverride": [
                     "http",
                     "tls",
-                    "quic"
+                    "quic",
+                    "fakedns"
                 ]
             }
         },
