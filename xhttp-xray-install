@@ -188,7 +188,6 @@ method=\$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
 # Кодирование связки "метод:пароль" в Base64 без переносов строк (-w0)
 userinfo_base64=\$(echo -n "\$method:\$pass" | base64 -w0)
 
-# Формирование итоговой ссылки
 ss_link="ss://\$userinfo_base64@\$ip:\$port_ss#SS-2022"
 
 vless_link="vless://\$uuid@\$ip:\$port_vless?security=reality&path=%2F&host=&mode=\$mode&sni=\$sni&fp=firefox&pbk=\$pbk&sid=\$sid&spx=%2F&type=xhttp&encryption=none#VLESS-XHTTP"
