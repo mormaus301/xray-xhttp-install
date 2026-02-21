@@ -186,7 +186,7 @@ pass=\$(jq -r '.inbounds[1].settings.password' /usr/local/etc/xray/config.json)
 method=\$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
 
 # Кодирование связки "метод:пароль" в Base64 без переносов строк (-w0)
-userinfo_base64=\$(echo -n "\$method_ss:\$pass_ss" | base64 -w0)
+userinfo_base64=\$(echo -n "\$method:\$pass" | base64 -w0)
 
 # Формирование итоговой ссылки
 ss_link="ss://\$userinfo_base64@\$ip:\$port_ss#SS-2022"
