@@ -183,7 +183,7 @@ sid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
 port_ss=\$(jq -r '.inbounds[1].port' /usr/local/etc/xray/config.json)
 pass_ss=\$(jq -r '.inbounds[1].settings.password' /usr/local/etc/xray/config.json)
 method_ss=\$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
-ip=\$(timeout 3 curl -4 -s icanhazip.com || echo "0.0.0.0")
+ip=$(timeout 3 curl -4 -s icanhazip.com)
 
 # Кодирование связки "метод:пароль" в Base64 без переносов строк (-w0)
 userinfo_b64=\$(echo -n "\$method_ss:\$pass_ss" | base64 -w0)
