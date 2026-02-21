@@ -142,37 +142,19 @@ cat << EOF > /usr/local/etc/xray/config.json
     "policy": {
         "levels": {
             "0": {
-                "handshake": 3,
-                "connIdle": 180
+                "handshake": 4,
+                "connIdle": 240
             }
         }
     }
 }
 EOF
 
-# Исполняемый файл для списка клиентов
-touch /usr/local/bin/userlist
-cat << 'EOF' > /usr/local/bin/userlist
-#!/bin/bash
-emails=($(jq -r '.inbounds[0].settings.clients[].email' "/usr/local/etc/xray/config.json"))
-
-if [[ ${#emails[@]} -eq 0 ]]; then
-    echo "Список клиентов пуст"
-    exit 1
-fi
-
-echo "Список клиентов:"
-for i in "${!emails[@]}"; do
-    echo "$((i+1)). ${emails[$i]}"
-done
-EOF
-chmod +x /usr/local/bin/userlist
-
 # Исполняемый файл для ссылки основного пользователя
-touch /usr/local/bin/mainuser
-cat << EOF > /usr/local/bin/mainuser
+touch /usr/local/bin/link
+cat << EOF > /usr/local/bin/link
 #!/bin/bash
-# Сбор актуальных данных при каждом запуске
+# Сбор актуальных данных
 port_vless=\$(jq -r '.inbounds[0].port' /usr/local/etc/xray/config.json)
 uuid=\$(jq -r '.inbounds[0].settings.clients[0].id' /usr/local/etc/xray/config.json)
 mode=\$(jq -r '.inbounds[0].streamSettings.xhttpSettings.mode' /usr/local/etc/xray/config.json)
@@ -180,19 +162,14 @@ sni=\$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/l
 pbk=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/Password/ {print $2}')
 sid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
 ip=$(timeout 3 curl -4 -s icanhazip.com)
-
 port_ss=\$(jq -r '.inbounds[1].port' /usr/local/etc/xray/config.json)
 pass=\$(jq -r '.inbounds[1].settings.password' /usr/local/etc/xray/config.json)
 method=\$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
-
-# Кодирование связки "метод:пароль" в Base64 без переносов строк (-w0)
 userinfo_base64=\$(echo -n "\$method:\$pass" | base64 -w0)
 
+# Сборка конфигов vless и ss для вывода
 ss_link="ss://\$userinfo_base64@\$ip:\$port_ss#SS-2022"
-
 vless_link="vless://\$uuid@\$ip:\$port_vless?security=reality&path=%2F&host=&mode=\$mode&sni=\$sni&fp=firefox&pbk=\$pbk&sid=\$sid&spx=%2F&type=xhttp&encryption=none#VLESS-XHTTP"
-
-# ss_link="ss://\$method:\$pass@\$ip:\$port_ss#SS-2022"
 
 # Вывод итоговых данных
 echo -e "\n\e[1;33m==================================================\e[0m"
@@ -214,56 +191,12 @@ echo "\$ss_link" | qrencode -t ansiutf8
 echo -e "\e[1;33m==========================================================================\e[0m"
 
 EOF
-chmod +x /usr/local/bin/mainuser
-
-# Исполняемый файл для создания новых клиентов
-touch /usr/local/bin/newuser
-cat << 'EOF' > /usr/local/bin/newuser
-#!/bin/bash
-read -p "Введите имя пользователя (email): " email
-
-    if [[ -z "$email" || "$email" == *" "* ]]; then
-    echo "Имя пользователя не может быть пустым или содержать пробелы. Попробуйте снова."
-    exit 1
-    fi
-user_json=$(jq --arg email "$email" '.inbounds[0].settings.clients[] | select(.email == $email)' /usr/local/etc/xray/config.json)
-
-if [[ -z "$user_json" ]]; then
-uuid=$(xray uuid)
-jq --arg email "$email" --arg uuid "$uuid" '.inbounds[0].settings.clients += [{"email": $email, "id": $uuid, "flow": ""}]' /usr/local/etc/xray/config.json > tmp.json && mv tmp.json /usr/local/etc/xray/config.json
-systemctl restart xray
-index=$(jq --arg email "$email" '.inbounds[0].settings.clients | to_entries[] | select(.value.email == $email) | .key'  /usr/local/etc/xray/config.json)
-#port=$(jq -r '.inbounds[0].port' /usr/local/etc/xray/config.json)
-#uuid=$(jq --argjson index "$index" -r '.inbounds[0].settings.clients[$index].id' /usr/local/etc/xray/config.json)
-#pbk=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/Password/ {print $2}')
-#sid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
-username=$(jq --argjson index "$index" -r '.inbounds[0].settings.clients[$index].email' /usr/local/etc/xray/config.json)
-sni=$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
-ip=$(timeout 3 curl -4 -s icanhazip.com)
-link="vless://$uuid@$ip:$port?security=reality&path=%2F&host=&mode=auto&sni=$sni&fp=firefox&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#vless-$ip"
-ss_link="ss://2022-blake3-aes-256-gcm:${ss_password}@\$ip:8080#ss-$ip"
-
-# Красивый вывод итоговых данных
-echo -e "\n\e[1;33m==================================================\e[0m"
-echo -e "\e[1;32m      XRAY \e[0m"
-echo -e "\e[1;33m==================================================\e[0m"
-
-echo -e "\n\e[1;34m[+] VLESS XHTTP REALITY:\e[0m"
-echo -e "\e[36m\$link\e[0m"
-
-echo -e "\n\e[1;34m[+] SHADOWSOCKS 2022:\e[0m"
-echo -e "\e[36m\$ss_link\e[0m"
-
-echo -e "\n\e[1;33m==================================================\e[0m"
-echo "QR-код для VLESS:"
-echo "\$link" | qrencode -t ansiutf8
-EOF
-chmod +x /usr/local/bin/mainuser
+chmod +x /usr/local/bin/link
 
 systemctl restart xray
 
 echo "Xray-core успешно установлен"
-mainuser
+link
 
 # Создаем файл с подсказками
 touch $HOME/help
@@ -271,13 +204,7 @@ cat << 'EOF' > $HOME/help
 
 Команды для управления пользователями Xray:
 
-    mainuser - выводит ссылку для подключения основного пользователя
-    newuser - создает нового пользователя
-    rmuser - удаление пользователей
-    sharelink - выводит список пользователей и позволяет создать для них ссылки для подключения
-    userlist - выводит список клиентов
-
-
+    link - выводит ссылку для подключения основного пользователя
 
 Файл конфигурации находится по адресу:
 
