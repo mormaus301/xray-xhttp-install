@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Будет установлен Vless с транспортом XHTTP"
 sleep 3
-apt update && apt upgrade -y
+apt update
 apt install qrencode curl jq -y
 
 # Включаем bbr
@@ -67,6 +67,7 @@ cat << EOF > /usr/local/etc/xray/config.json
                         "email": "main",
                         "id": "$uuid",
                         "flow": ""
+                    }
                 ],
                 "decryption": "none"
             },
@@ -140,10 +141,7 @@ cat << EOF > /usr/local/etc/xray/config.json
     ],
     "policy": {
         "levels": {
-            "0": {
-                "handshake": 4,
-                "connIdle": 240
-            }
+            "0": {}
         }
     }
 }
