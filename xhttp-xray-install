@@ -140,7 +140,10 @@ cat << EOF > /usr/local/etc/xray/config.json
     ],
     "policy": {
         "levels": {
-            "0": {},
+            "0": {
+                "handshake": 4,
+                "connIdle": 240
+            },
         }
     }
 }
