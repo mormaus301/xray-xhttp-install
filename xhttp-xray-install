@@ -143,7 +143,7 @@ cat << EOF > /usr/local/etc/xray/config.json
             "0": {
                 "handshake": 4,
                 "connIdle": 240
-            },
+            }
         }
     }
 }
