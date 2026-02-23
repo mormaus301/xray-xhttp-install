@@ -62,7 +62,11 @@ cat << EOF > /usr/local/etc/xray/config.json
             "port": 443,
             "protocol": "vless",
             "settings": {
-                "clients": [],
+                "clients": [
+                    {
+                        "id": "$uuid",
+                        "flow": ""
+                ],
                 "decryption": "none"
             },
             "streamSettings": {
