@@ -62,27 +62,21 @@ cat << EOF > /usr/local/etc/xray/config.json
             "port": 443,
             "protocol": "vless",
             "settings": {
-                "clients": [
-                    {
-                        "email": "main",
-                        "id": "$uuid",
-                        "flow": ""
-                    }
-                ],
+                "clients": [],
                 "decryption": "none"
             },
             "streamSettings": {
                 "network": "xhttp",
                 "xhttpSettings": {
                     "path": "/",
-                    "mode": "packet-up"
+                    "mode": "auto"
                 },
                 "security": "reality",
                 "realitySettings": {
                     "show": false,
-                    "target": "www.habr.com:443",
+                    "target": "www.2gis.ru:443",
                     "serverNames": [
-                        "www.habr.com"
+                        "www.2gis.ru"
                     ],
                     "privateKey": "$privatkey",
                     "minClientVer": "",
@@ -142,8 +136,6 @@ cat << EOF > /usr/local/etc/xray/config.json
     "policy": {
         "levels": {
             "0": {
-                "handshake": 4,
-                "connIdle": 240
             }
         }
     }
