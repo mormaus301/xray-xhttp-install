@@ -15,7 +15,7 @@ sysctl -p
 echo "bbr включен"
 fi
 
-# Устанавливаем ядро Xray
+# Xray-core install
 bash -c "$(curl -4 -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
 [ -f /usr/local/etc/xray/.keys ] && rm /usr/local/etc/xray/.keys
 touch /usr/local/etc/xray/.keys
@@ -30,7 +30,7 @@ export shortsid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print 
 # Генерация пароля для Shadowsocks
 ss_password=$(openssl rand -base64 32)
 
-# Создаем файл конфигурации Xray
+# Create config file
 touch /usr/local/etc/xray/config.json
 cat << EOF > /usr/local/etc/xray/config.json
 {
@@ -138,14 +138,6 @@ cat << EOF > /usr/local/etc/xray/config.json
             "tag": "block"
         }
     ],
-    "policy": {
-        "levels": {
-            "0": {
-                "handshake": 4,
-                "connIdle": 240
-            }
-        }
-    }
 }
 EOF
 
@@ -171,10 +163,6 @@ vless_link="vless://\$uuid@\$ip:\$port_vless?security=reality&path=%2F&host=&mod
 ss_link="ss://\$userinfo_base64@\$ip:\$port_ss#SS-2022"
 
 # Вывод итоговых данных
-echo -e "\n\e[1;33m==================================================\e[0m"
-echo -e "\e[1;32m      XRAY INSTALLATION COMPLETE 🎭\e[0m"
-echo -e "\e[1;33m==================================================\e[0m"
-
 echo -e "\n\e[1;34m[+] VLESS XHTTP REALITY:\e[0m"
 echo -e "\e[36m\$vless_link\e[0m"
 
@@ -194,24 +182,7 @@ chmod +x /usr/local/bin/link
 
 systemctl restart xray
 
+echo -e "\n\e[1;33m==================================================\e[0m"
 echo -e "\e[1;32m      XRAY INSTALLATION COMPLETE 🎭\e[0m"
-echo "Xray-core успешно установлен"
+echo -e "\e[1;33m==================================================\e[0m"
 link
-
-# Создаем файл с подсказками
-touch $HOME/help
-cat << 'EOF' > $HOME/help
-
-Команды для управления пользователями Xray:
-
-    link - выводит ссылку для подключения основного пользователя
-
-Файл конфигурации находится по адресу:
-
-    /usr/local/etc/xray/config.json
-
-Команда для перезагрузки ядра Xray:
-
-    systemctl restart xray
-
-EOF
