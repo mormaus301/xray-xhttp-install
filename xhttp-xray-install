@@ -79,7 +79,7 @@ cat << EOF > /usr/local/etc/xray/config.json
                 "security": "reality",
                 "realitySettings": {
                     "show": false,
-                    "target": "www.mega.io:443",
+                    "dest": "www.mega.io:443",
                     "serverNames": [
                         "www.mega.io"
                     ],
@@ -90,6 +90,8 @@ cat << EOF > /usr/local/etc/xray/config.json
                     "shortIds": [
                         "$shortsid"
                     ]
+                    "spiderX": "/",
+                    "fingerprint": "chrome"
                 }
             },
             "sniffing": {
@@ -113,7 +115,6 @@ cat << EOF > /usr/local/etc/xray/config.json
                 "password": "$ss_password",
                 "network": "tcp,udp",
                 "clients": [],
-                "ivCheck": false
               },
               "sniffing": {
                     "enabled": true,
@@ -152,6 +153,7 @@ mode=\$(jq -r '.inbounds[0].streamSettings.xhttpSettings.mode' /usr/local/etc/xr
 sni=\$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
 pbk=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/Password/ {print $2}')
 sid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
+fp=$(jq -r '.inbounds[0].fingerprint' /usr/local/etc/xray/config.json)
 ip=$(timeout 3 curl -4 -s icanhazip.com)
 port_ss=\$(jq -r '.inbounds[1].port' /usr/local/etc/xray/config.json)
 pass=\$(jq -r '.inbounds[1].settings.password' /usr/local/etc/xray/config.json)
@@ -159,7 +161,7 @@ method=\$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
 userinfo_base64=\$(echo -n "\$method:\$pass" | base64 -w0)
 
 # Сборка конфигов vless и ss для вывода
-vless_link="vless://\$uuid@\$ip:\$port_vless?security=reality&path=%2F&host=&mode=\$mode&sni=\$sni&fp=firefox&pbk=\$pbk&sid=\$sid&spx=%2F&type=xhttp&encryption=none#VLESS-XHTTP"
+vless_link="vless://\$uuid@\$ip:\$port_vless?security=reality&path=%2F&host=&mode=\$mode&sni=\$sni&fp=$fp&pbk=\$pbk&sid=\$sid&spx=%2F&type=xhttp&encryption=none#VLESS-XHTTP"
 ss_link="ss://\$userinfo_base64@\$ip:\$port_ss#SS-2022"
 
 # Вывод итоговых данных
