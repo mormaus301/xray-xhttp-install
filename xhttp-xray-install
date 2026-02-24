@@ -89,7 +89,7 @@ cat << EOF > /usr/local/etc/xray/config.json
                     "maxTimeDiff": 0,
                     "shortIds": [
                         "$shortsid"
-                    ]
+                    ],
                     "spiderX": "/",
                     "fingerprint": "chrome"
                 }
@@ -114,7 +114,7 @@ cat << EOF > /usr/local/etc/xray/config.json
                 "method": "2022-blake3-chacha20-poly1305",
                 "password": "$ss_password",
                 "network": "tcp,udp",
-                "clients": [],
+                "clients": []
               },
               "sniffing": {
                     "enabled": true,
@@ -151,10 +151,10 @@ port_vless=\$(jq -r '.inbounds[0].port' /usr/local/etc/xray/config.json)
 uuid=\$(jq -r '.inbounds[0].settings.clients[0].id' /usr/local/etc/xray/config.json)
 mode=\$(jq -r '.inbounds[0].streamSettings.xhttpSettings.mode' /usr/local/etc/xray/config.json)
 sni=\$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
-pbk=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/Password/ {print $2}')
-sid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
-fp=$(jq -r '.inbounds[0].fingerprint' /usr/local/etc/xray/config.json)
-ip=$(timeout 3 curl -4 -s icanhazip.com)
+pbk=\$(cat /usr/local/etc/xray/.keys | awk -F': ' '/Password/ {print $2}')
+sid=\$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
+fp=\$(jq -r '.inbounds[0].fingerprint' /usr/local/etc/xray/config.json)
+ip=\$(timeout 3 curl -4 -s icanhazip.com)
 port_ss=\$(jq -r '.inbounds[1].port' /usr/local/etc/xray/config.json)
 pass=\$(jq -r '.inbounds[1].settings.password' /usr/local/etc/xray/config.json)
 method=\$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
