@@ -137,7 +137,7 @@ cat << EOF > /usr/local/etc/xray/config.json
             "protocol": "blackhole",
             "tag": "block"
         }
-    ],
+    ]
 }
 EOF
 
