@@ -113,8 +113,7 @@ cat << EOF > /usr/local/etc/xray/config.json
               "settings": {
                 "method": "2022-blake3-chacha20-poly1305",
                 "password": "$ss_password",
-                "network": "tcp,udp",
-                "clients": []
+                "network": "tcp,udp"
               },
               "sniffing": {
                     "enabled": true,
@@ -161,7 +160,6 @@ method=\$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
 userinfo_base64=\$(echo -n "\$method:\$pass" | base64 -w0)
 
 # Сборка конфигов vless и ss для вывода
-#vless_link="vless://\$uuid@\$ip:\$port_vless?security=reality&path=%2F&host=&mode=\$mode&sni=\$sni&fp=$fp&pbk=\$pbk&sid=\$sid&spx=%2F&type=xhttp&encryption=none#VLESS-XHTTP"
 vless_link="vless://\$uuid@\$ip:\$port_vless?security=reality&path=%2F&host=&mode=\$mode&sni=\$sni&fp=\$fp&pbk=\$pbk&sid=\$sid&spx=%2F&type=xhttp&encryption=none#VLESS-XHTTP"
 ss_link="ss://\$userinfo_base64@\$ip:\$port_ss#SS-2022"
 
