@@ -164,6 +164,7 @@ vless_link="vless://\$uuid@\$ip:\$port_vless?security=reality&path=%2F&host=&mod
 ss_link="ss://\$userinfo_base64@\$ip:\$port_ss#SS-2022"
 
 # Вывод итоговых данных
+echo -e "\e[1;32mСсылки для подключения:\e[0m"
 echo -e "\n\e[1;34m[+] VLESS XHTTP REALITY:\e[0m"
 echo -e "\e[36m\$vless_link\e[0m"
 
