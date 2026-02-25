@@ -9,3 +9,8 @@
 ```sh
 wget -qO- https://raw.githubusercontent.com/mormaus301/xray-xhttp-install/main/xhttp-xray-install | bash
 ```
+Команда link - выводит ссылки для подключения
+Файл с конфигом находится по адресу:
+/usr/local/etc/xray/config.json
+Команда для перезагрузки ядра Xray:
+systemctl restart xray
