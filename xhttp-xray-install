@@ -184,6 +184,9 @@ chmod +x /usr/local/bin/link
 
 systemctl restart xray
 
+# Autoupdate-check
+(crontab -l 2>/dev/null; echo "0 4 */5 * * bash -c \"\$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)\" @ install > /dev/null 2>&1 # Xray-update") | crontab -
+
 echo -e "\n\e[1;33m==================================================\e[0m"
 echo -e "\e[1;32m      XRAY INSTALLATION COMPLETE 🎭\e[0m"
 echo -e "\e[1;33m==================================================\e[0m"
