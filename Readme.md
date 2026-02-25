@@ -10,6 +10,8 @@
 wget -qO- https://raw.githubusercontent.com/mormaus301/xray-xhttp-install/main/xhttp-xray-install | bash
 ```
 Команда link - выводит ссылки для подключения<br/>
+<br/>
+P.S. Внести какие-то изменение в конфиг (например изменить сайт маскировки) естественно может каждый
 Файл с конфигом находится по адресу:<br/>
 /usr/local/etc/xray/config.json<br/>
 Команда для перезагрузки ядра Xray:<br/>
