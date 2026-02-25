@@ -143,25 +143,25 @@ EOF
 
 # Исполняемый файл для ссылки основного пользователя
 touch /usr/local/bin/link
-cat << EOF > /usr/local/bin/link
+cat << 'EOF' > /usr/local/bin/link
 #!/bin/bash
 # Сбор актуальных данных
-port_vless=\$(jq -r '.inbounds[0].port' /usr/local/etc/xray/config.json)
-uuid=\$(jq -r '.inbounds[0].settings.clients[0].id' /usr/local/etc/xray/config.json)
-mode=\$(jq -r '.inbounds[0].streamSettings.xhttpSettings.mode' /usr/local/etc/xray/config.json)
-sni=\$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
+port_vless=$(jq -r '.inbounds[0].port' /usr/local/etc/xray/config.json)
+uuid=$(jq -r '.inbounds[0].settings.clients[0].id' /usr/local/etc/xray/config.json)
+mode=$(jq -r '.inbounds[0].streamSettings.xhttpSettings.mode' /usr/local/etc/xray/config.json)
+sni=$(jq -r '.inbounds[0].streamSettings.realitySettings.serverNames[0]' /usr/local/etc/xray/config.json)
 pbk=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/Password/ {print $2}')
 sid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
-fp=\$(jq -r '.inbounds[0].streamSettings.realitySettings.fingerprint' /usr/local/etc/xray/config.json)
+fp=$(jq -r '.inbounds[0].streamSettings.realitySettings.fingerprint' /usr/local/etc/xray/config.json)
 ip=$(timeout 3 curl -4 -s icanhazip.com)
-port_ss=\$(jq -r '.inbounds[1].port' /usr/local/etc/xray/config.json)
-pass=\$(jq -r '.inbounds[1].settings.password' /usr/local/etc/xray/config.json)
-method=\$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
-userinfo_base64=\$(echo -n "\$method:\$pass" | base64 -w0)
+port_ss=$(jq -r '.inbounds[1].port' /usr/local/etc/xray/config.json)
+pass=$(jq -r '.inbounds[1].settings.password' /usr/local/etc/xray/config.json)
+method=$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
+userinfo_base64=$(echo -n "\$method:\$pass" | base64 -w0)
 
 # Сборка конфигов vless и ss для вывода
-vless_link="vless://\$uuid@\$ip:\$port_vless?security=reality&path=%2F&host=&mode=\$mode&sni=\$sni&fp=\$fp&pbk=\$pbk&sid=\$sid&spx=%2F&type=xhttp&encryption=none#VLESS-XHTTP"
-ss_link="ss://\$userinfo_base64@\$ip:\$port_ss#SS-2022"
+vless_link="vless://$uuid@$ip:$port_vless?security=reality&path=%2F&host=&mode=$mode&sni=$sni&fp=$fp&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#💉 VLESS-XHTTP"
+ss_link="ss://$userinfo_base64@$ip:$port_ss#🛡 SS-2022"
 
 # Вывод итоговых данных
 echo -e "\e[1;32mСсылки для подключения:\e[0m"
