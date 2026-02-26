@@ -111,7 +111,7 @@ cat << EOF > /usr/local/etc/xray/config.json
               "port": 8080,
               "protocol": "shadowsocks",
               "settings": {
-                "method": "2022-blake3-chacha20-poly1305",
+                "method": "2022-blake3-aes-256-gcm",
                 "password": "$ss_password",
                 "network": "tcp,udp"
               },
