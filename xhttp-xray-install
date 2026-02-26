@@ -161,7 +161,7 @@ userinfo_base64=$(echo -n "$method:$pass" | base64 -w0)
 
 # Сборка конфигов vless и ss для вывода
 vless_link="vless://$uuid@$ip:$port_vless?security=reality&path=%2F&host=&mode=$mode&sni=$sni&fp=$fp&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#💉 VLESS-XHTTP"
-ss_link="ss://$userinfo_base64@$ip:$port_ss#🛡 Shadowsocks-2022"
+ss_link="ss://$userinfo_base64@$ip:$port_ss#📐 Shadowsocks-2022"
 
 # Вывод итоговых данных
 echo -e "\e[1;32mСсылки для подключения:\e[0m"
