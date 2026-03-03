@@ -74,14 +74,14 @@ cat << EOF > /usr/local/etc/xray/config.json
         "network": "xhttp",
         "xhttpSettings": {
           "path": "/",
-          "mode": "auto"
+          "mode": "packet-up"
         },
         "security": "reality",
         "realitySettings": {
           "show": false,
-          "dest": "www.mega.io:443",
+          "dest": "rutube.ru:443",
           "serverNames": [
-            "www.mega.io"
+            "rutube.ru"
           ],
           "privateKey": "$privatkey",
           "minClientVer": "",
