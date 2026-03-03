@@ -79,9 +79,9 @@ cat << EOF > /usr/local/etc/xray/config.json
         "security": "reality",
         "realitySettings": {
           "show": false,
-          "dest": "rutube.ru:443",
+          "dest": "www.dropbox.com:443",
           "serverNames": [
-            "rutube.ru"
+            "www.dropbox.com"
           ],
           "privateKey": "$privatkey",
           "minClientVer": "",
