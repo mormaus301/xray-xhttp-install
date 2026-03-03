@@ -79,9 +79,9 @@ cat << EOF > /usr/local/etc/xray/config.json
         "security": "reality",
         "realitySettings": {
           "show": false,
-          "dest": "www.mega.io:443",
+          "dest": "www.tbank.ru:443",
           "serverNames": [
-            "www.mega.io"
+            "www.tbank.ru"
           ],
           "privateKey": "$privatkey",
           "minClientVer": "",
