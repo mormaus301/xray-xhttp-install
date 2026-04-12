@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Will be install Vless-xhttp and Shadowsocks-2022"
 sleep 3
-apt update -y && sudo apt full-upgrade -y
+apt update -y && apt full-upgrade -y
 apt install qrencode curl jq -y
 
 # Enable bbr
