@@ -1,18 +1,18 @@
 #!/bin/bash
-echo "Будет установлен Vless с транспортом XHTTP"
+echo "Will be install Vless-xhttp and Shadowsocks-2022"
 sleep 3
-apt update
+apt update -y && sudo apt full-upgrade -y
 apt install qrencode curl jq -y
 
-# Включаем bbr
+# Enable bbr
 bbr=$(sysctl -a | grep net.ipv4.tcp_congestion_control)
 if [ "$bbr" = "net.ipv4.tcp_congestion_control = bbr" ]; then
-echo "bbr уже включен"
+echo "bbr is already enabled"
 else
 echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
 sysctl -p
-echo "bbr включен"
+echo "bbr has been enabled"
 fi
 
 # Xray-core install
@@ -27,7 +27,7 @@ export uuid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/uuid/ {print $2}')
 export privatkey=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/PrivateKey/ {print $2}')
 export shortsid=$(cat /usr/local/etc/xray/.keys | awk -F': ' '/shortsid/ {print $2}')
 
-# Генерация пароля для Shadowsocks
+# Generation password for Shadowsocks
 ss_password=$(openssl rand -base64 32)
 
 # Create config file
@@ -114,6 +114,7 @@ cat << EOF > /usr/local/etc/xray/config.json
         "method": "2022-blake3-aes-256-gcm",
         "password": "$ss_password",
         "network": "tcp,udp"
+        "ivCheck": false
       },
       "sniffing": {
         "enabled": true,
@@ -141,7 +142,7 @@ cat << EOF > /usr/local/etc/xray/config.json
 }
 EOF
 
-# Исполняемый файл для ссылки основного пользователя
+# Compiling link
 touch /usr/local/bin/link
 cat << 'EOF' > /usr/local/bin/link
 #!/bin/bash
@@ -159,11 +160,11 @@ pass=$(jq -r '.inbounds[1].settings.password' /usr/local/etc/xray/config.json)
 method=$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
 userinfo_base64=$(echo -n "$method:$pass" | base64 -w0)
 
-# Сборка конфигов vless и ss для вывода
-vless_link="vless://$uuid@$ip:$port_vless?security=reality&path=%2F&host=&mode=$mode&sni=$sni&fp=$fp&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#💉 VLESS-XHTTP"
+# Compiling vless and shadowsocks configurations for output
+vless_link="vless://$uuid@$ip:$port_vless?security=reality&path=%2F&host=&mode=$mode&sni=$sni&fp=$fp&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#💉 Vless-xhttp"
 ss_link="ss://$userinfo_base64@$ip:$port_ss#📐 Shadowsocks-2022"
 
-# Вывод итоговых данных
+# Output of final data / Вывод итоговых данных
 echo -e "\e[1;32mСсылки для подключения:\e[0m"
 echo -e "\n\e[1;34m[+] VLESS XHTTP REALITY:\e[0m"
 echo -e "\e[36m$vless_link\e[0m"
@@ -186,6 +187,8 @@ systemctl restart xray
 
 # Autoupdate-check
 (crontab -l 2>/dev/null; echo "0 4 */5 * * bash -c \"\$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)\" @ install > /dev/null 2>&1 # Xray-update") | crontab -
+
+shutdown -r +9
 
 echo -e "\n\e[1;33m==================================================\e[0m"
 echo -e "\e[1;32m      XRAY INSTALLATION COMPLETE 🎭\e[0m"
