@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Will be install Vless-xhttp and Shadowsocks-2022"
+echo -e "\e[1;32mWill be install vless-xhttp-reality and shadowsocks-2022\e[0m"
 sleep 3
 apt update -y && apt full-upgrade -y
 apt install qrencode curl jq -y
@@ -74,22 +74,7 @@ cat << EOF > /usr/local/etc/xray/config.json
         "network": "xhttp",
         "xhttpSettings": {
           "path": "/",
-          "mode": "packet-up",
-          "xPaddingBytes": "100-1000",
-          "noGRPCHeader": false,
-          "noSSEHeader": false,
-          "scMaxEachPostBytes": 1000000,
-          "scMinPostsIntervalMs": 30,
-          "scMaxBufferedPosts": 30,
-          "scStreamUpServerSecs": "20-80",
-          "xmux": {
-            "maxConcurrency": "16-32",
-            "maxConnections": 0,
-            "cMaxReuseTimes": 0,
-            "hMaxRequestTimes": "600-900",
-            "hMaxReusableSecs": "1800-3000",
-            "hKeepAlivePeriod": 0
-          }
+          "mode": "packet-up"
         },
         "security": "reality",
         "realitySettings": {
@@ -198,7 +183,7 @@ chmod +x /usr/local/bin/link
 
 systemctl restart xray
 
-# Autoupdate-check
+# Autoupdate-check (every 6 days)
 (crontab -l 2>/dev/null; echo "0 6 */6 * * bash -c \"\$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)\" @ install > /dev/null 2>&1 # Xray-update") | crontab -
 
 shutdown -r +9
