@@ -74,7 +74,22 @@ cat << EOF > /usr/local/etc/xray/config.json
         "network": "xhttp",
         "xhttpSettings": {
           "path": "/",
-          "mode": "packet-up"
+          "mode": "packet-up",
+          "xPaddingBytes": "100-1000",
+          "noGRPCHeader": false,
+          "noSSEHeader": false,
+          "scMaxEachPostBytes": 1000000,
+          "scMinPostsIntervalMs": 30,
+          "scMaxBufferedPosts": 30,
+          "scStreamUpServerSecs": "20-80",
+          "xmux": {
+            "maxConcurrency": "16-32",
+            "maxConnections": 0,
+            "cMaxReuseTimes": 0,
+            "hMaxRequestTimes": "600-900",
+            "hMaxReusableSecs": "1800-3000",
+            "hKeepAlivePeriod": 0
+          }
         },
         "security": "reality",
         "realitySettings": {
@@ -99,8 +114,7 @@ cat << EOF > /usr/local/etc/xray/config.json
         "destOverride": [
           "http",
           "tls",
-          "quic",
-          "fakedns"
+          "quic"
         ],
         "metadataOnly": false,
         "routeOnly": false
@@ -121,8 +135,7 @@ cat << EOF > /usr/local/etc/xray/config.json
         "destOverride": [
           "http",
           "tls",
-          "quic",
-          "fakedns"
+          "quic"
         ],
         "metadataOnly": false,
         "routeOnly": false
@@ -161,8 +174,8 @@ method=$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
 userinfo_base64=$(echo -n "$method:$pass" | base64 -w0)
 
 # Compiling vless and shadowsocks configurations for output
-vless_link="vless://$uuid@$ip:$port_vless?security=reality&path=%2F&host=&mode=$mode&sni=$sni&fp=$fp&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#💉 Vless-xhttp"
-ss_link="ss://$userinfo_base64@$ip:$port_ss#📐 Shadowsocks-2022"
+vless_link="vless://$uuid@$ip:$port_vless?security=reality&path=%2F&host=&mode=$mode&sni=$sni&fp=$fp&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#💉 vless-xhttp"
+ss_link="ss://$userinfo_base64@$ip:$port_ss#📐 shadowsocks-2022"
 
 # Output of final data / Вывод итоговых данных
 echo -e "\e[1;32mСсылки для подключения:\e[0m"
