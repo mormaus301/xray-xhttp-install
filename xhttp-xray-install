@@ -44,9 +44,7 @@ cat << EOF > /usr/local/etc/xray/config.json
         "type": "field",
         "domain": [
           "geosite:category-ads-all",
-          "geosite:category-ru",
-          "geosite:category-bank-ru",
-          "geosite:rutube"
+          "geosite:category-ru"
         ],
         "outboundTag": "block"
       },
@@ -62,25 +60,27 @@ cat << EOF > /usr/local/etc/xray/config.json
       {
         "type": "field",
         "domain": [
-           "geosite:ok",
-           "geosite:mailru",
-           "domain:vk.com",
-           "domain:ok.ru",
-           "domain:rutube.ru",
-           "domain:telega.me",
-           "domain:dzen.ru",
-           "domain:telega.info",
-           "domain:ruwiki.ru",
-           "domain:max.ru",
-           "domain:mail.ru",
-           "domain:yandex.ru",
-           "domain:ya.ru",
-           "domain:yandex.com",
-           "domain:yastatic.net",
-           "domain:yandex.net",
-           "domain:yandexcloud.net",
-           "domain:dzen.ru",
-           "domain:2ip.io"
+          "geosite:ok",
+          "geosite:mailru",
+          "geosite:category-bank-ru",
+          "geosite:rutube"
+          "domain:vk.com",
+          "domain:ok.ru",
+          "domain:rutube.ru",
+          "domain:telega.me",
+          "domain:dzen.ru",
+          "domain:telega.info",
+          "domain:ruwiki.ru",
+          "domain:max.ru",
+          "domain:mail.ru",
+          "domain:yandex.ru",
+          "domain:ya.ru",
+          "domain:yandex.com",
+          "domain:yastatic.net",
+          "domain:yandex.net",
+          "domain:yandexcloud.net",
+          "domain:dzen.ru",
+          "domain:2ip.io"
           ],
         "outboundTag": "block"
       }
