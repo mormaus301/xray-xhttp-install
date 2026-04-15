@@ -58,8 +58,7 @@ cat << EOF > /usr/local/etc/xray/config.json
       {
         "type": "field",
         "ip": [
-          "geoip:cn",
-          "geoip:ru"
+          "geoip:cn"
         ],
         "outboundTag": "block"
       }
