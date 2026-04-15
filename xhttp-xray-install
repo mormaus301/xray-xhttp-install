@@ -85,8 +85,8 @@ cat << EOF > /usr/local/etc/xray/config.json
          	"domain:dzen.ru",
          	"domain:2ip.io"
        ],
-       "outboundTag": "BLOCK"
-      },
+       "outboundTag": "block"
+      }
     ]
   },
   "inbounds": [
