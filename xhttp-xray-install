@@ -45,6 +45,7 @@ cat << EOF > /usr/local/etc/xray/config.json
         "domain": [
           "geosite:category-ads-all",
           "geosite:category-ru",
+          "regexp:.*\\.ru$",
           "domain:2ip.io"
         ],
         "outboundTag": "block"
