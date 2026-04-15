@@ -60,7 +60,20 @@ cat << EOF > /usr/local/etc/xray/config.json
           "geoip:cn"
         ],
         "outboundTag": "block"
-      }
+      },
+      "type": "field",
+      "domain": [
+          "domain:yandex.ru",
+         	"domain:ya.ru",
+        	"domain:yandex.com",
+         	"domain:yastatic.net",
+         	"domain:yandex.net",
+         	"domain:yandexcloud.net",
+         	"domain:dzen.ru",
+         	"domain:2ip.io"
+       ],
+       "outboundTag": "BLOCK"
+      },
     ]
   },
   "inbounds": [
