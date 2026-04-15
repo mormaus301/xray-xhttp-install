@@ -42,6 +42,13 @@ cat << EOF > /usr/local/etc/xray/config.json
     "rules": [
       {
         "type": "field",
+        "ip": [
+          "geoip:private"
+      ],
+      "outboundTag": "direct"
+      },
+      {
+        "type": "field",
         "domain": [
           "geosite:category-ads-all",
           "geosite:ru"
