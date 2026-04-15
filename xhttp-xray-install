@@ -61,8 +61,21 @@ cat << EOF > /usr/local/etc/xray/config.json
         ],
         "outboundTag": "block"
       },
+      {
       "type": "field",
       "domain": [
+          "geosite:vk",
+          "geosite:ok",
+          "geosite:mailru",
+          "domain:vk.com",
+          "domain:ok.ru",
+          "domain:rutube.ru",
+          "domain:telega.me",
+          "domain:dzen.ru",
+          "domain:telega.info",
+          "domain:ruwiki.ru",
+          "domain:max.ru",
+          "domain:mail.ru",
           "domain:yandex.ru",
          	"domain:ya.ru",
         	"domain:yandex.com",
