@@ -62,11 +62,6 @@ cat << EOF > /usr/local/etc/xray/config.json
           "geoip:ru"
         ],
         "outboundTag": "block"
-      },
-      {
-        "type": "field",
-        "network": "tcp,udp",
-        "outboundTag": "proxy"
       }
     ]
   },
