@@ -51,7 +51,13 @@ cat << EOF > /usr/local/etc/xray/config.json
         "type": "field",
         "domain": [
           "geosite:category-ads-all",
-          "geosite:category-ru"
+          "geosite:yandex",
+          "geosite:mailru",
+          "geosite:vk",
+          "regexp:.*\\.xn--.*$",
+          "regexp:.*\\.ru$",
+          "regexp:.*\\.su$",
+          "regexp:.*\\.xn--p1ai$"
         ],
         "outboundTag": "block"
       },
