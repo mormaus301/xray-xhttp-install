@@ -53,7 +53,6 @@ cat << EOF > /usr/local/etc/xray/config.json
           "geosite:category-ads-all",
           "geosite:category-ru",
           "geosite:vk",
-          "regexp:.*\\.xn--.*$",
           "regexp:.*\\.ru$",
           "regexp:.*\\.su$",
           "regexp:.*\\.xn--p1ai$"
