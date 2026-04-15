@@ -50,8 +50,7 @@ cat << EOF > /usr/local/etc/xray/config.json
       {
         "type": "field",
         "domain": [
-          "geosite:category-ads-all",
-          "geosite:ru"
+          "geosite:category-ads-all"
         ],
         "outboundTag": "block"
       },
