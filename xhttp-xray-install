@@ -44,8 +44,8 @@ cat << EOF > /usr/local/etc/xray/config.json
         "type": "field",
         "ip": [
           "geoip:private"
-      ],
-      "outboundTag": "direct"
+        ],
+        "outboundTag": "direct"
       },
       {
         "type": "field",
@@ -62,6 +62,11 @@ cat << EOF > /usr/local/etc/xray/config.json
           "geoip:ru"
         ],
         "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "network": "tcp,udp",
+        "outboundTag": "proxy"
       }
     ]
   },
