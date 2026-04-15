@@ -45,8 +45,8 @@ cat << EOF > /usr/local/etc/xray/config.json
         "domain": [
           "geosite:category-ads-all",
           "geosite:category-ru",
-          "regexp:.*\.ru$",
-          "domain:2ip.io"
+          "geosite:category-bank-ru",
+          "geosite:rutube"
         ],
         "outboundTag": "block"
       },
@@ -57,6 +57,29 @@ cat << EOF > /usr/local/etc/xray/config.json
           "geoip:ru",
           "geoip:private"
         ],
+      {
+        "type": "field",
+        "domain": [
+           "geosite:ok",
+           "geosite:mailru",
+           "domain:vk.com",
+           "domain:ok.ru",
+           "domain:rutube.ru",
+           "domain:telega.me",
+           "domain:dzen.ru",
+           "domain:telega.info",
+           "domain:ruwiki.ru",
+           "domain:max.ru",
+           "domain:mail.ru",
+           "domain:yandex.ru",
+           "domain:ya.ru",
+           "domain:yandex.com",
+           "domain:yastatic.net",
+           "domain:yandex.net",
+           "domain:yandexcloud.net",
+           "domain:dzen.ru",
+           "domain:2ip.io"
+          ],
         "outboundTag": "block"
       }
     ]
