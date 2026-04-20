@@ -53,19 +53,31 @@ cat << EOF > /usr/local/etc/xray/config.json
       {
         "type": "field",
         "domain": [
-          "geosite:category-ads-all",
-          "geosite:category-ru"
+          "geosite:category-ads-all"
         ],
         "outboundTag": "block"
       },
       {
         "type": "field",
+        "domain": [
+          "geosite:category-ru"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
         "ip": [
-          "geoip:cn",
+          "geoip:cn"
+        ],
+      "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "ip": [
           "geoip:ru",
           "geoip:private"
         ],
-      "outboundTag": "block"
+      "outboundTag": "direct"
       },
       {
         "type": "field",
@@ -87,7 +99,7 @@ cat << EOF > /usr/local/etc/xray/config.json
           "domain:dzen.ru",
           "domain:2ip.io"
           ],
-        "outboundTag": "block"
+        "outboundTag": "direct"
       }
     ]
   },
