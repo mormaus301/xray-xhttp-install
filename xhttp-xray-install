@@ -49,17 +49,17 @@ cat << EOF > /usr/local/etc/xray/config.json
       },
       {
         "type": "field",
-        "domain": [
-          "geosite:category-ru"
-        ],
-        "outboundTag": "direct"
-      },
-      {
-        "type": "field",
         "ip": [
           "geoip:cn"
         ],
       "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "geosite:category-ru"
+        ],
+        "outboundTag": "direct"
       },
       {
         "type": "field",
@@ -74,28 +74,6 @@ cat << EOF > /usr/local/etc/xray/config.json
         "domain": [
           "geosite:private"
         ],
-        "outboundTag": "direct"
-      },
-      {
-        "type": "field",
-        "domain": [
-          "domain:vk.com",
-          "domain:ok.ru",
-          "domain:rutube.ru",
-          "domain:telega.me",
-          "domain:telega.info",
-          "domain:ruwiki.ru",
-          "domain:max.ru",
-          "domain:mail.ru",
-          "domain:yandex.ru",
-          "domain:ya.ru",
-          "domain:yandex.com",
-          "domain:yastatic.net",
-          "domain:yandex.net",
-          "domain:yandexcloud.net",
-          "domain:dzen.ru",
-          "domain:2ip.io"
-          ],
         "outboundTag": "direct"
       }
     ]
