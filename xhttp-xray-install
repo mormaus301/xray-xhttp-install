@@ -91,6 +91,16 @@ cat << EOF > /usr/local/etc/xray/config.json
           ],
         "outboundTag": "direct"
       }
+      {
+        "type": "field",
+        "ip": [
+          "8.8.8.8",
+          "8.8.4.4",
+          "1.1.1.1",
+          "1.0.0.1"
+        ],
+        "outboundTag": "proxy"
+      }
     ]
   },
   "inbounds": [
