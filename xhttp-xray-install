@@ -90,16 +90,6 @@ cat << EOF > /usr/local/etc/xray/config.json
           "domain:2ip.io"
           ],
         "outboundTag": "direct"
-      },
-      {
-        "type": "field",
-        "ip": [
-          "8.8.8.8",
-          "8.8.4.4",
-          "1.1.1.1",
-          "1.0.0.1"
-        ],
-        "outboundTag": "proxy"
       }
     ]
   },
