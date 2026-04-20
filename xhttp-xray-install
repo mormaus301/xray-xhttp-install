@@ -55,20 +55,20 @@ cat << EOF > /usr/local/etc/xray/config.json
       "outboundTag": "block"
       },
       {
-        "domain": [
-          "geosite:private",
-          "geosite:huawei",
-          "geosite:xiaomi",
-          "geosite:category-ru"
+        "ip": [
+          "geoip:private",
+          "geoip:ru"
         ],
-        "outboundTag": "direct"
+        "outboundTag": "direct",
+        "type": "field"
       },
       {
-        "ip": [
-          "geoip:ru",
-          "geoip:private"
+        "domain": [
+          "geosite:private",
+          "geosite:category-ru"
         ],
-        "outboundTag": "direct"
+        "outboundTag": "direct",
+        "type": "field"
       },
       {
         "type": "field",
