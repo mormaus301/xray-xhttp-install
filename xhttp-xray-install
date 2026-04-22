@@ -120,7 +120,8 @@ cat << EOF > /usr/local/etc/xray/config.json
         "destOverride": [
           "http",
           "tls",
-          "quic"
+          "quic",
+          "fakedns"
         ],
         "metadataOnly": false,
         "routeOnly": false
@@ -141,7 +142,8 @@ cat << EOF > /usr/local/etc/xray/config.json
         "destOverride": [
           "http",
           "tls",
-          "quic"
+          "quic",
+          "fakedns"
         ],
         "metadataOnly": false,
         "routeOnly": false
