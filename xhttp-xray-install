@@ -42,40 +42,52 @@ cat << EOF > /usr/local/etc/xray/config.json
     "rules": [
       {
         "type": "field",
+        "ip": [
+          "8.8.8.8",
+          "8.8.4.4",
+          "1.1.1.1",
+          "1.0.0.1"
+        ],
+        "outboundTag": "proxy"
+      },
+      {
+        "type": "field",
         "domain": [
           "geosite:category-ads-all"
+          "geosite:category-ru",
+          "geosite:private"
         ],
         "outboundTag": "block"
       },
       {
         "type": "field",
         "ip": [
-          "geoip:cn"
+          "geoip:cn",
+          "geoip:private"
         ],
       "outboundTag": "block"
       },
       {
         "type": "field",
         "domain": [
-          "geosite:category-ru",
-          "geosite:private"
-        ],
-        "outboundTag": "direct"
-      },
-      {
-        "type": "field",
-        "ip": [
-          "geoip:ru",
-          "geoip:private"
-        ],
-        "outboundTag": "direct"
-      },
-      {
-        "type": "field",
-        "protocol": [
-          "bittorrent"
-        ],
-        "outboundTag": "direct"
+          "domain:vk.com",
+          "domain:ok.ru",
+          "domain:rutube.ru",
+          "domain:telega.me",
+          "domain:telega.info",
+          "domain:ruwiki.ru",
+          "domain:max.ru",
+          "domain:mail.ru",
+          "domain:yandex.ru",
+          "domain:ya.ru",
+          "domain:yandex.com",
+          "domain:yastatic.net",
+          "domain:yandex.net",
+          "domain:yandexcloud.net",
+          "domain:dzen.ru",
+          "domain:2ip.io"
+          ],
+        "outboundTag": "block"
       }
     ]
   },
