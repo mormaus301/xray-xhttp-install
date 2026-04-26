@@ -26,9 +26,12 @@ systemctl restart xray
 <br/>
 <br/>
 Для подключения используем:<br/>
-Windows/macOS/Linux: [Throne]([https://github.com](https://github.com/throneproj/Throne/releases/latest)
+Windows/macOS/Linux:<br/>
+Throne — https://github.com/throneproj/Throne/releases/latest
 <br/>
-Android: [v2rayNG](https://github.com/2dust/v2rayNG/releases/latest)
+Android:<br/>
+v2rayNG — https://github.com/2dust/v2rayNG/releases/latest
 <br/>
-iOS: [Streisand](https://apps.apple.com/us/app/streisand/id6450534064) (возможно нужно будет изменить регион AppStore, например на США)
+iOS:<br/>
+Streisand — https://apps.apple.com/us/app/streisand/id6450534064 (возможно нужно будет изменить регион AppStore, например на США)
 <br/>
