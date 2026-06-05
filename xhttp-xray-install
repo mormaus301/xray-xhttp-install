@@ -38,7 +38,7 @@ cat << EOF > /usr/local/etc/xray/config.json
     "loglevel": "warning"
   },
   "routing": {
-    "domainStrategy": "IPIfNonMatch",
+    "domainStrategy": "AsIs",
     "rules": [
       {
         "type": "field",
@@ -53,6 +53,7 @@ cat << EOF > /usr/local/etc/xray/config.json
         "type": "field",
         "ip": [
           "geoip:cn",
+          "geoip:ru",
           "geoip:private"
         ],
         "outboundTag": "block"
@@ -98,7 +99,7 @@ cat << EOF > /usr/local/etc/xray/config.json
         "network": "xhttp",
         "xhttpSettings": {
           "path": "/",
-          "mode": "packet-up"
+          "mode": "auto"
         },
         "security": "reality",
         "realitySettings": {
@@ -120,8 +121,7 @@ cat << EOF > /usr/local/etc/xray/config.json
         "destOverride": [
           "http",
           "tls",
-          "quic",
-          "fakedns"
+          "quic"
         ],
         "metadataOnly": false,
         "routeOnly": false
@@ -142,8 +142,7 @@ cat << EOF > /usr/local/etc/xray/config.json
         "destOverride": [
           "http",
           "tls",
-          "quic",
-          "fakedns"
+          "quic"
         ],
         "metadataOnly": false,
         "routeOnly": false
@@ -206,7 +205,7 @@ chmod +x /usr/local/bin/link
 
 systemctl restart xray
 
-# Autoupdate-check (every 6 days)
+# Autoupdate-check (every 3 days)
 (crontab -l 2>/dev/null; echo "0 6 */6 * * bash -c \"\$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)\" @ install > /dev/null 2>&1 # Xray-update") | crontab -
 
 shutdown -r +9
