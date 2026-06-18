@@ -100,6 +100,16 @@ cat << EOF > /usr/local/etc/xray/config.json
         "xhttpSettings": {
           "path": "/",
           "mode": "auto"
+          "extra": {
+            "xmux": {
+              "maxConcurrency": 0,
+              "maxConnections": 1,
+              "cMaxReuseTimes": 0,
+              "hMaxRequestTimes": "600-900",
+              "hMaxReusableSecs": "1800-3000",
+              "hKeepAlivePeriod": 0
+            }
+          }
         },
         "security": "reality",
         "realitySettings": {
@@ -113,7 +123,7 @@ cat << EOF > /usr/local/etc/xray/config.json
             "$shortsid"
           ],
           "spiderX": "/",
-          "fingerprint": "chrome"
+          "fingerprint": "firefox"
         }
       },
       "sniffing": {
@@ -129,7 +139,7 @@ cat << EOF > /usr/local/etc/xray/config.json
     },
     {
       "listen": "0.0.0.0",
-      "port": 8443,
+      "port": 8080,
       "protocol": "shadowsocks",
       "settings": {
         "method": "2022-blake3-chacha20-poly1305",
