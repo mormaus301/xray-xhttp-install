@@ -213,12 +213,11 @@ EOF
 chmod +x /usr/local/bin/link
 
 systemctl restart xray
-sleep 3
 
 # Autoupdate-check (every 3 days)
 (crontab -l 2>/dev/null | grep -v '# Xray-update'; echo "0 6 */3 * * bash -c \"\$(curl -fsSL https://github.com/XTLS/Xray-install/raw/main/install-release.sh)\" @ install > /dev/null 2>&1 # Xray-update") | crontab -
 
-shutdown -r +9
+shutdown -r +15
 
 echo -e "\n\e[1;33m==================================================\e[0m"
 echo -e "\e[1;32m      XRAY INSTALLATION COMPLETE 🎭\e[0m"
