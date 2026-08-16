@@ -190,7 +190,7 @@ method=$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
 userinfo_base64=$(echo -n "$method:$pass" | base64 -w0)
 
 # Compiling vless and shadowsocks configurations for output
-vless_link="vless://$uuid@$ip:$port_vless?security=reality&path=%2F&host=&mode=$mode&sni=$sni&fp=$fp&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#💉 vless-xhttp"
+vless_link="vless://$uuid@$ip:$port_vless?security=reality&path=%2F&host=&mode=$mode&sni=$sni&fp=$fp&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none&extra=%7B%22xmux%22%3A%7B%22maxConcurrency%22%3A1%2C%22maxConnections%22%3A0%2C%22cMaxReuseTimes%22%3A0%2C%22hMaxRequestTimes%22%3A%22600-900%22%2C%22hMaxReusableSecs%22%3A%221800-3000%22%2C%22hKeepAlivePeriod%22%3A0%7D%7D#💉 vless-xhttp"
 ss_link="ss://$userinfo_base64@$ip:$port_ss#📐 shadowsocks-2022"
 
 # Output of final data / Вывод итоговых данных
