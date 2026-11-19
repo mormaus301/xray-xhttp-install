@@ -41,6 +41,7 @@ cat << EOF > /usr/local/etc/xray/config.json
     "domainStrategy": "IPIfNonMatch",
     "rules": [
       {
+        "type": "field",
         "domain": [
           "geosite:category-ads-all",
           "geosite:category-ru",
@@ -72,6 +73,7 @@ cat << EOF > /usr/local/etc/xray/config.json
         "outboundTag": "block"
       },
       {
+        "type": "field",
         "ip": [
           "geoip:cn",
           "geoip:ru",
@@ -101,7 +103,6 @@ cat << EOF > /usr/local/etc/xray/config.json
         },
         "security": "reality",
         "realitySettings": {
-          "show": false,
           "target": "www.dropbox.com:443",
           "serverNames": [
             "www.dropbox.com"
