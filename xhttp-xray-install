@@ -64,11 +64,25 @@ cat << EOF > /usr/local/etc/xray/config.json
           "domain:vk.com",
           "domain:ok.ru",
           "domain:rutube.ru",
-          "domain:telega.me",
-          "domain:telega.info",
           "domain:ruwiki.ru",
           "domain:max.ru",
           "domain:mail.ru",
+          "domain:xn--p1ai",
+          "domain:xn--p1acf",
+          "domain:2gis.com",
+          "domain:2gis.kz",
+          "domain:2gis.ae",
+          "domain:wbstatic.net",
+          "domain:wildberries.by",
+          "domain:wbbasket.ru",
+          "domain:ozon.travel",
+          "domain:ozonusercontent.com",
+          "domain:ozon.by",
+          "domain:userapi.com",
+          "domain:vk-cdn.net",
+          "domain:vkuservideo.net",
+          "domain:mycdn.me",
+          "domain:vk-portal.net",
           "domain:yandex.ru",
           "domain:ya.ru",
           "domain:yandex.com",
@@ -182,7 +196,7 @@ method=$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
 userinfo_base64=$(echo -n "$method:$pass" | base64 -w0)
 
 # Compiling vless and shadowsocks configurations for output
-vless_link="vless://$uuid@$ip:$port_vless?security=reality&path=%2F&host=&mode=$mode&sni=$sni&fp=$fp&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#💉 vless-xhttp"
+vless_link="vless://$uuid@$ip:$port_vless?security=reality&path=%2Fapi%2Fv3&mode=$mode&sni=$sni&fp=$fp&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#💉 vless-xhttp"
 ss_link="ss://$userinfo_base64@$ip:$port_ss#📐 shadowsocks-2022"
 
 # Output of final data / Вывод итоговых данных
