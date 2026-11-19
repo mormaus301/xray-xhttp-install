@@ -38,7 +38,7 @@ cat << EOF > /usr/local/etc/xray/config.json
     "loglevel": "warning"
   },
   "routing": {
-    "domainStrategy": "AsIs",
+    "domainStrategy": "IPIfNonMatch",
     "rules": [
       {
         "type": "field",
@@ -75,6 +75,8 @@ cat << EOF > /usr/local/etc/xray/config.json
           "domain:yastatic.net",
           "domain:yandex.net",
           "domain:yandex.cloud",
+          "domain:avito.st",
+          "domain:mycdn.me",
           "domain:dzen.ru",
           "domain:2ip.ru"
         ],
@@ -99,22 +101,13 @@ cat << EOF > /usr/local/etc/xray/config.json
         "network": "xhttp",
         "xhttpSettings": {
           "path": "/",
-          "mode": "auto",
-          "extra": {
-            "xmux": {
-              "maxConcurrency": 0,
-              "maxConnections": 1,
-              "cMaxReuseTimes": 0,
-              "hMaxRequestTimes": "600-900",
-              "hMaxReusableSecs": "1800-3000",
-              "hKeepAlivePeriod": 0
-            }
+          "mode": "auto"
           }
         },
         "security": "reality",
         "realitySettings": {
           "show": false,
-          "dest": "www.dropbox.com:443",
+          "target": "www.dropbox.com:443",
           "serverNames": [
             "www.dropbox.com"
           ],
@@ -139,7 +132,7 @@ cat << EOF > /usr/local/etc/xray/config.json
     },
     {
       "listen": "0.0.0.0",
-      "port": 8443,
+      "port": 8080,
       "protocol": "shadowsocks",
       "settings": {
         "method": "2022-blake3-aes-256-gcm",
@@ -190,7 +183,7 @@ method=$(jq -r '.inbounds[1].settings.method' /usr/local/etc/xray/config.json)
 userinfo_base64=$(echo -n "$method:$pass" | base64 -w0)
 
 # Compiling vless and shadowsocks configurations for output
-vless_link="vless://$uuid@$ip:$port_vless?security=reality&path=%2F&host=&mode=$mode&sni=$sni&fp=$fp&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none&extra=%7B%22xmux%22%3A%7B%22maxConcurrency%22%3A1%2C%22maxConnections%22%3A0%2C%22cMaxReuseTimes%22%3A0%2C%22hMaxRequestTimes%22%3A%22600-900%22%2C%22hMaxReusableSecs%22%3A%221800-3000%22%2C%22hKeepAlivePeriod%22%3A0%7D%7D#💉 vless-xhttp"
+vless_link="vless://$uuid@$ip:$port_vless?security=reality&path=%2F&host=&mode=$mode&sni=$sni&fp=$fp&pbk=$pbk&sid=$sid&spx=%2F&type=xhttp&encryption=none#💉 vless-xhttp"
 ss_link="ss://$userinfo_base64@$ip:$port_ss#📐 shadowsocks-2022"
 
 # Output of final data / Вывод итоговых данных
