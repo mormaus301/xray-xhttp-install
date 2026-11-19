@@ -41,59 +41,41 @@ cat << EOF > /usr/local/etc/xray/config.json
     "domainStrategy": "IPIfNonMatch",
     "rules": [
       {
-        "type": "field",
         "domain": [
           "geosite:category-ads-all",
           "geosite:category-ru",
-          "geosite:private"
-        ],
-        "outboundTag": "block"
-      },
-      {
-        "type": "field",
-        "ip": [
-          "geoip:cn",
-          "geoip:ru",
-          "geoip:private"
-        ],
-        "outboundTag": "block"
-      },
-      {
-        "type": "field",
-        "domain": [
+          "geosite:private",
           "domain:ru",
           "domain:su",
-          "domain:vk.com",
-          "domain:ok.ru",
-          "domain:rutube.ru",
-          "domain:ruwiki.ru",
-          "domain:max.ru",
-          "domain:mail.ru",
           "domain:xn--p1ai",
           "domain:xn--p1acf",
-          "domain:2gis.com",
-          "domain:2gis.kz",
-          "domain:2gis.ae",
-          "domain:wbstatic.net",
-          "domain:wildberries.by",
-          "domain:wbbasket.ru",
-          "domain:ozon.travel",
-          "domain:ozonusercontent.com",
-          "domain:ozon.by",
+          "domain:vk.com",
           "domain:userapi.com",
           "domain:vk-cdn.net",
           "domain:vkuservideo.net",
           "domain:mycdn.me",
           "domain:vk-portal.net",
-          "domain:yandex.ru",
-          "domain:ya.ru",
           "domain:yandex.com",
           "domain:yastatic.net",
           "domain:yandex.net",
           "domain:yandex.cloud",
-          "domain:avito.st",
-          "domain:dzen.ru",
-          "domain:2ip.ru"
+          "domain:2gis.com",
+          "domain:2gis.kz",
+          "domain:2gis.ae",
+          "domain:wbstatic.net",
+          "domain:wildberries.by",
+          "domain:ozon.travel",
+          "domain:ozonusercontent.com",
+          "domain:ozon.by",
+          "domain:avito.st"
+        ],
+        "outboundTag": "block"
+      },
+      {
+        "ip": [
+          "geoip:cn",
+          "geoip:ru",
+          "geoip:private"
         ],
         "outboundTag": "block"
       }
@@ -101,7 +83,6 @@ cat << EOF > /usr/local/etc/xray/config.json
   },
   "inbounds": [
     {
-      "listen": "0.0.0.0",
       "port": 443,
       "protocol": "vless",
       "settings": {
@@ -116,7 +97,7 @@ cat << EOF > /usr/local/etc/xray/config.json
         "network": "xhttp",
         "xhttpSettings": {
           "path": "/api/v3",
-          "mode": "packet-up"
+          "mode": "auto"
         },
         "security": "reality",
         "realitySettings": {
@@ -129,7 +110,6 @@ cat << EOF > /usr/local/etc/xray/config.json
           "shortIds": [
             "$shortsid"
           ],
-          "spiderX": "/",
           "fingerprint": "firefox"
         }
       },
@@ -145,7 +125,6 @@ cat << EOF > /usr/local/etc/xray/config.json
       }
     },
     {
-      "listen": "0.0.0.0",
       "port": 8080,
       "protocol": "shadowsocks",
       "settings": {
