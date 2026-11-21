@@ -1,7 +1,7 @@
 #!/bin/bash
 echo -e "\e[1;32mWill be install vless-xhttp-reality and vless-grpc-reality\e[0m"
 sleep 3
-apt update -y && apt full-upgrade -y
+apt update && apt upgrade -y
 apt install qrencode curl jq -y
 
 # Enable bbr
