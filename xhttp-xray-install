@@ -145,9 +145,9 @@ cat << EOF > /usr/local/etc/xray/config.json
         "security": "reality",
         "realitySettings": {
           "show": false,
-          "target": "amazon.com:443",
+          "target": "exchange-l76.itxtech.surf:443",
           "serverNames": [
-            "amazon.com"
+            "exchange-l76.itxtech.surf"
           ],
           "privateKey": "$privatkey",
           "shortIds": [
