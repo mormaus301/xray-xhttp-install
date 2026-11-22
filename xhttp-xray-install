@@ -4,16 +4,19 @@ sleep 3
 apt update && apt upgrade -y
 apt install qrencode curl jq -y
 
-# Enable bbr
-bbr=$(sysctl -a | grep net.ipv4.tcp_congestion_control)
-if [ "$bbr" = "net.ipv4.tcp_congestion_control = bbr" ]; then
-  echo "bbr is already enabled"
-else
-  echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
-  echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
-  sysctl -p
-  echo "bbr has been enabled"
-fi
+# Enable bbr and tune TCP buffers
+mkdir -p /etc/sysctl.d
+modprobe tcp_bbr 2>/dev/null || true
+cat << 'EOF' > /etc/sysctl.d/99-xray-bbr.conf
+net.core.default_qdisc = fq
+net.ipv4.tcp_congestion_control = bbr
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216
+net.ipv4.tcp_rmem = 4096 87380 16777216
+net.ipv4.tcp_wmem = 4096 65536 16777216
+EOF
+sysctl --system >/dev/null 2>&1 || sysctl -p /etc/sysctl.d/99-xray-bbr.conf >/dev/null 2>&1 || true
+echo "bbr and tcp buffers have been configured"
 
 # Xray-core install
 bash -c "$(curl -4 -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
